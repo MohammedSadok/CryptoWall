@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React,{useContext} from "react";
 import {
   View,
   Text,
@@ -12,10 +12,11 @@ import COLORS from "../conts/colors";
 import Button from "../components/general/Button";
 import Input from "../components/general/Input";
 import Loader from "../components/general/Loader";
-import register from "../services/register";
+import AuthContext from "../context/authoContext";
 import newAccount from "../services/register";
 import getAllPortfolios from "../services/getAllPortfolios";
 const RegistrationScreen = ({ navigation }) => {
+  const { login, setLogin } = useContext(AuthContext);
   const [inputs, setInputs] = React.useState({
     email: "",
     firstName: "",
@@ -81,11 +82,11 @@ const RegistrationScreen = ({ navigation }) => {
         loggedIn: true,
       };
       AsyncStorage.setItem("userData", JSON.stringify(form));
-      navigation.navigate("MainNavigation");
+      setLogin(true);
     } else {
       Alert.alert("Error", userData.data.msg);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleOnchange = (text, input) => {

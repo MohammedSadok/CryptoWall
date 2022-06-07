@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -15,7 +14,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/general/Loader";
 import loginF from "../services/login";
 import getAllPortfolios from "../services/getAllPortfolios";
+import React, { useEffect, useContext } from "react";
+import AuthContext from "../context/authoContext";
 const LoginScreen = ({ navigation }) => {
+  const { setLogin } = useContext(AuthContext);
   const [inputs, setInputs] = React.useState({ email: "", password: "" });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
@@ -32,11 +34,11 @@ const LoginScreen = ({ navigation }) => {
       isValid = false;
     }
     if (isValid) {
-      login();
+      loginUser();
     }
   };
 
-  const login = async () => {
+  const loginUser = async () => {
     setLoading(true);
     let userData = await loginF(inputs);
     if (userData.data.success) {
@@ -52,11 +54,10 @@ const LoginScreen = ({ navigation }) => {
         loggedIn: true,
       };
       AsyncStorage.setItem("userData", JSON.stringify(form));
-      navigation.navigate("MainNavigation");
+      setLogin(true);
     } else {
       Alert.alert("Error", "Username or password is incorrect!");
     }
-    setLoading(false);
   };
 
   const handleOnchange = (text, input) => {
@@ -68,8 +69,11 @@ const LoginScreen = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
-      <View style={styles.imageContainer} >
-      <Image style={styles.image} source={require("../assets/logo_full.png")} />
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={require("../assets/logo_full.png")}
+        />
       </View>
       <Loader visible={loading} />
       <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
@@ -126,9 +130,9 @@ const styles = StyleSheet.create({
     height: 120,
     resizeMode: "stretch",
   },
-  imageContainer:{
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 export default LoginScreen;

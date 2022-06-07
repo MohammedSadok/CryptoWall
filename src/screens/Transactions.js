@@ -44,7 +44,7 @@ export default function Transactions({ navigation }) {
       <Transaction
         image={item.coin.coin.icon}
         qte={item.Qte}
-        type={item.coin.Type}
+        type={item.Type}
         time={new Date(item.Date).toISOString().replace("T", " ").slice(0, -5)}
         price={item.coin.coin.price}
         value={item.Price}

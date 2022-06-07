@@ -12,12 +12,15 @@ import { AntDesign } from "@expo/vector-icons";
 import Item from "../components/profile/settings/item";
 import ModalLogOut from "../components/modals/ModalLogOut";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Updates } from "expo";
 import COLORS from "../conts/colors";
 const vh = Dimensions.get("window").height;
 const vw = Dimensions.get("window").width;
 import PortfolioContext from "../context/PortfolioContext.js";
-export default function Profile({ navigation }) {
+import AuthContext from "../context/authoContext";
+export default function Profile({ navigation,route }) {
   const { portfolio } = useContext(PortfolioContext);
+  const { login, setLogin } = useContext(AuthContext);
   const randomImages = [
     require("../assets/imgs/0.jpg"),
     require("../assets/imgs/1.jpg"),
@@ -40,7 +43,6 @@ export default function Profile({ navigation }) {
       : { name: "caretdown", color: COLORS.red };
   const [modal, setModal] = useState(false);
   const [user, setUser] = useState({});
-  const [num, setNum] = useState(0);
   useEffect(() => {
     async function fetchData() {
       let user = await AsyncStorage.getItem("userData");
@@ -52,11 +54,19 @@ export default function Profile({ navigation }) {
   function toggleModal() {
     setModal(!modal);
   }
+  const logOut = async () => {
+    let userData = await AsyncStorage.getItem("userData");
+    userData = JSON.parse(userData);
+    userData.loggedIn = false;
+    AsyncStorage.setItem("userData", JSON.stringify(userData));
+    setLogin(false);
+  };
   if (modal) {
     return (
       <ModalLogOut
         backdropOpacity={0.2}
-        handleClick={() => toggleModal()}
+        handleCancel={() => toggleModal()}
+        handleClick={logOut}
         on={modal}
         title={"Confirm Logout"}
         text={"Are you sure you want to Logout ?"}
@@ -87,22 +97,24 @@ export default function Profile({ navigation }) {
         <View style={styles.totalContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Current Balance</Text>
-            <Text style={styles.nbr}>{portfolio.balance}</Text>
+            <Text style={styles.nbr}>{portfolio.balance.toFixed(2)}$</Text>
           </View>
           <View style={styles.profit}>
             <Text style={styles.profitText}>Profit</Text>
             {/* <View style={styles.value_text}> */}
-              <Text style={styles.profitValue}>{portfolio.profit.toFixed(3)}</Text>
+            <Text style={styles.profitValue}>
+              {portfolio.profit.toFixed(2)}$
+            </Text>
             {/* </View> */}
-              <View style={styles.percentageContainer}>
-                <AntDesign
-                  name={type.name}
-                  size={16}
-                  color={type.color}
-                  style={{ position: "relative", top: 3 }}
-                />
-                <Text style={styles.percentage}>{Percentage}%</Text>
-              </View>
+            <View style={styles.percentageContainer}>
+              <AntDesign
+                name={type.name}
+                size={16}
+                color={type.color}
+                style={{ position: "relative", top: 3 }}
+              />
+              <Text style={styles.percentage}>{Percentage}%</Text>
+            </View>
           </View>
         </View>
         <ImageBackground
@@ -241,7 +253,6 @@ const styles = StyleSheet.create({
     fontFamily: "Mulish_700Bold",
   },
   title: {
-    
     marginHorizontal: "5%",
   },
   text: {
@@ -253,6 +264,7 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     fontFamily: "Mulish_700Bold",
     fontSize: 28,
+    height: 30,
   },
   textContainer: {
     paddingLeft: "10%",
@@ -270,6 +282,7 @@ const styles = StyleSheet.create({
     fontFamily: "Mulish_700Bold",
     fontSize: 20,
     marginRight: "6%",
+    height: 22,
   },
   value_text: {
     flexDirection: "row",
@@ -285,5 +298,6 @@ const styles = StyleSheet.create({
     fontFamily: "Mulish_700Bold",
     fontSize: 14,
     marginLeft: "5%",
+    height: 16,
   },
 });

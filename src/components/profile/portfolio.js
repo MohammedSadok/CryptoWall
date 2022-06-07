@@ -95,6 +95,17 @@ export default function Portfolio(props) {
           </View>
         </View>
       </View>
+      <AntDesign
+        name="checkcircle"
+        size={24}
+        color={props.backgroundColor}
+        style={{
+          position: "absolute",
+          left: "45%",
+          top: "45%",
+          zIndex: 2
+        }}
+      />
       <ImageBackground
         source={randomImages[num]}
         resizeMode="cover"
@@ -139,12 +150,12 @@ export default function Portfolio(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: "relative",
     backgroundColor: "white",
     height: 180,
     marginHorizontal: 10,
     marginVertical: 5,
     borderRadius: 10,
-    // borderColor: COLORS.blue,
     borderColor: COLORS.white,
     borderWidth: 3,
     flexDirection: "row",

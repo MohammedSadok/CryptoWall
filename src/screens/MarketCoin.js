@@ -28,8 +28,8 @@ import COLORS from "../conts/colors";
 const vh = Dimensions.get("window").height;
 const vw = Dimensions.get("window").width;
 export default function MarketCoin({ navigation, route }) {
-  const { id, nav } = route.params;
-  const { portfolio } = useContext(PortfolioContext);
+  const { id, nav, price } = route.params;
+  const { portfolio, setPortfolio } = useContext(PortfolioContext);
   const [coin, setCoin] = useState(null);
   const [data, setData] = useState([]);
   const [per, setPer] = useState({
@@ -124,7 +124,19 @@ export default function MarketCoin({ navigation, route }) {
         date: date + " " + time,
       },
     ]);
+    let profit = portfolio.profit;
+    profit +=
+      form.Type == "sell"
+        ? form.Price * form.Qte - price * form.Qte
+        : price * form.Qte - form.Price * form.Qte;
 
+    let balance = portfolio.balance;
+    balance += form.Type == "sell" ? -price * form.Qte : +price * form.Qte;
+    setPortfolio({
+      ...portfolio,
+      balance: balance,
+      profit: profit,
+    });
     toggleModalResult(rep.data.status, true);
   };
   const [loaded] = useFonts({
@@ -178,10 +190,7 @@ export default function MarketCoin({ navigation, route }) {
           <View style={styles.list}>
             <Text style={styles.history}>History</Text>
             {data.length > 0 && (
-              <FlatList
-                data={data}
-                renderItem={renderItem}
-              />
+              <FlatList data={data} renderItem={renderItem} />
             )}
             {!data.length && (
               <View style={styles.list}>

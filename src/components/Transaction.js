@@ -10,7 +10,10 @@ import COLORS from "../conts/colors";
 const vh = Dimensions.get("window").height;
 const vw = Dimensions.get("window").width;
 export default function Transaction(props) {
-  let type = props.type == "buy" ? "Received" : "Unreceived";
+  let type =
+    props.type == "buy"
+      ? { name: "Received", color: COLORS.green }
+      : { name: "Unreceived", color: COLORS.red };
   const [loaded] = useFonts({
     Mulish_400Regular,
     Mulish_700Bold,
@@ -33,7 +36,7 @@ export default function Transaction(props) {
         />
       </View>
       <View style={styles.typeContainer}>
-        <Text style={styles.type}>{type}</Text>
+        <Text style={[styles.type,{color:type.color}]}>{type.name}</Text>
         <Text style={styles.qte}>
           {props.qte} {props.symbol}
         </Text>
@@ -41,7 +44,7 @@ export default function Transaction(props) {
       </View>
       <View style={styles.priceContainer}>
         <Text style={styles.value}>${props.value}</Text>
-        <Text style={styles.price}>${props.price}</Text>
+        {/* <Text style={styles.price}>${props.price}</Text> */}
         <View style={styles.percentage}>
           <AntDesign
             name={per.name}
@@ -111,12 +114,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "baseline",
-    marginTop: vh * 0.01,
   },
   priceContainer: {
     justifyContent: "space-between",
-    // height: vh * 0.08,
-    // backgroundColor: "red",
+    marginTop: 20
   },
   time: {
     color: "#ADADBD",
@@ -133,8 +134,8 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     fontFamily: "Mulish_700Bold",
     fontSize: 16,
-    position: "relative",
-    top: -3,
+    position: 'relative',
+    bottom: 5,
   },
   qte: {
     color: COLORS.black,
@@ -143,7 +144,6 @@ const styles = StyleSheet.create({
   },
   type: {
     marginBottom: vh * 0.01,
-    color: "#00CB6A",
     fontFamily: "Mulish_700Bold",
     fontSize: 12,
   },

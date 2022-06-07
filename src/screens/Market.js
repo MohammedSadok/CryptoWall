@@ -80,6 +80,7 @@ export default function Market({ navigation }) {
             handleClick={() => {
               navigation.navigate("MarketCoin", {
                 id: data.coin.symbol,
+                price:data.coin.price,
                 nav: "Home",
               });
             }}

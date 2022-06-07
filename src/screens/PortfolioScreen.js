@@ -38,6 +38,7 @@ export default function PortfolioScreen({ navigation }) {
   const [deletedId, setDeletedId] = useState(null);
   const [modalDelete, setModalDelete] = useState(false);
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState();
   const [loading, setLoading] = useState(false);
   const { portfolio, setPortfolio } = useContext(PortfolioContext);
   function toggleModalDelete() {
@@ -69,6 +70,11 @@ export default function PortfolioScreen({ navigation }) {
           balance: 0,
         },
       ]);
+      let t = 0;
+      res.forEach((item) => {
+        t += item.balance;
+      });
+      setTotal(t);
     }
     toggleModal();
   };
@@ -77,6 +83,11 @@ export default function PortfolioScreen({ navigation }) {
       let user = await AsyncStorage.getItem("userData");
       let res = await getAllPortfolios(JSON.parse(user).Id);
       setData(res);
+      let t = 0;
+      res.forEach((item) => {
+        t += item.balance;
+      });
+      setTotal(t);
       setSelectedId(JSON.parse(user).portfolio);
     };
     loadApi();
@@ -102,7 +113,8 @@ export default function PortfolioScreen({ navigation }) {
   }
 
   const renderItem = ({ item, index }) => {
-    const backgroundColor = item.id === selectedId ? COLORS.blue : COLORS.white;
+    const backgroundColor =
+      item.id === selectedId ? COLORS.green : COLORS.white;
     return (
       <Portfolio
         key={item.id}
@@ -160,8 +172,7 @@ export default function PortfolioScreen({ navigation }) {
         </View>
         <View style={styles.body}>
           <Text style={styles.textTotal}>Total balance</Text>
-          <Text style={styles.valueTotal}>$2155.12</Text>
-
+          {total && <Text style={styles.valueTotal}>{total}</Text>}
           <TouchableOpacity
             style={styles.addContainer}
             onPress={() => toggleModal()}
