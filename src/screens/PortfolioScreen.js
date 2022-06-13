@@ -172,7 +172,7 @@ export default function PortfolioScreen({ navigation }) {
         </View>
         <View style={styles.body}>
           <Text style={styles.textTotal}>Total balance</Text>
-          {total && <Text style={styles.valueTotal}>{total}</Text>}
+          <Text style={styles.valueTotal}>{total ? total : 0}</Text>
           <TouchableOpacity
             style={styles.addContainer}
             onPress={() => toggleModal()}

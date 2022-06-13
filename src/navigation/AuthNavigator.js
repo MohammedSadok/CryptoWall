@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/LoginScreen";
@@ -12,27 +12,10 @@ import AuthContext from "../context/authoContext";
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   const { login } = useContext(AuthContext);
-  const [initial, setInitial] = useState(login);
-  useEffect(() => {
-    const authUser = async () => {
-      let userData = await AsyncStorage.getItem("userData");
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (userData.loggedIn) {
-          setInitial(true);
-        } else {
-          setInitial(false);
-        }
-      } else {
-        setInitial(-1);
-      }
-    };
-    authUser();
-  }, []);
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-        initialRouteName={initial == -1 ? "Start" : "LoginScreen"}
+        initialRouteName={login == -1 ? "Start" : "LoginScreen"}
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen
@@ -44,11 +27,7 @@ const AuthNavigator = () => {
           component={LoginScreen}
           options={{ tabBarStyle: { display: "none" } }}
         />
-        <Stack.Screen
-          name="Start"
-          component={Start}
-          options={{ tabBarStyle: { display: "none" } }}
-        />
+        <Stack.Screen name="Start" component={Start} />
       </Stack.Navigator>
     </NavigationContainer>
   );
