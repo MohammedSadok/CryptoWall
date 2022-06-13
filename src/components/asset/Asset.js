@@ -22,7 +22,7 @@ export default function Asset(props) {
       ? { name: "caretup", color: COLORS.green }
       : { name: "caretdown", color: COLORS.red };
   return (
-    <View style={styles.container} onPress={props.handleClick}>
+    <TouchableOpacity style={styles.container} onPress={props.handleClick}>
       <Image
         style={styles.img}
         source={{
@@ -42,13 +42,17 @@ export default function Asset(props) {
             name={percentage.name}
             size={16}
             color={percentage.color}
-            style={{ position: "relative", top: 2, right: 3 }}
+            style={{
+              position: "relative",
+              top: props.profit > 0 ? 2 : 0,
+              right: 3,
+            }}
           />
           <Text style={[styles.txtper, { color: percentage.color }]}>
-            {((props.profit * 100) / props.price).toFixed(3)}%
+            {Math.abs(((props.profit * 100) / props.price).toFixed(3))}%
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

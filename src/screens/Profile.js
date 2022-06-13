@@ -18,7 +18,7 @@ const vh = Dimensions.get("window").height;
 const vw = Dimensions.get("window").width;
 import PortfolioContext from "../context/PortfolioContext.js";
 import AuthContext from "../context/authoContext";
-export default function Profile({ navigation,route }) {
+export default function Profile({ navigation, route }) {
   const { portfolio } = useContext(PortfolioContext);
   const { login, setLogin } = useContext(AuthContext);
   const randomImages = [
@@ -101,19 +101,16 @@ export default function Profile({ navigation,route }) {
           </View>
           <View style={styles.profit}>
             <Text style={styles.profitText}>Profit</Text>
-            {/* <View style={styles.value_text}> */}
             <Text style={styles.profitValue}>
               {portfolio.profit.toFixed(2)}$
             </Text>
-            {/* </View> */}
             <View style={styles.percentageContainer}>
               <AntDesign
                 name={type.name}
                 size={16}
                 color={type.color}
-                style={{ position: "relative", top: 3 }}
               />
-              <Text style={styles.percentage}>{Percentage}%</Text>
+              <Text style={[styles.percentage,{color:type.color}]}>{Percentage}%</Text>
             </View>
           </View>
         </View>
@@ -294,7 +291,6 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
   },
   percentage: {
-    color: COLORS.green,
     fontFamily: "Mulish_700Bold",
     fontSize: 14,
     marginLeft: "5%",

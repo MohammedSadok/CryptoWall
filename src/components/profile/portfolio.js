@@ -31,7 +31,7 @@ export default function Portfolio(props) {
       ? 0
       : ((props.profit * 100) / props.balance).toFixed(3);
   const type =
-    profit >= 0
+  props.profit >= 0
       ? { name: "caretup", color: COLORS.green }
       : { name: "caretdown", color: COLORS.red };
   const lastDigit1Str = String(props.id).slice(-1);
@@ -91,7 +91,7 @@ export default function Portfolio(props) {
               color={type.color}
               style={{ position: "relative", top: 0, right: 3 }}
             />
-            <Text style={styles.textPercentage}>{profit}%</Text>
+            <Text style={[styles.textPercentage,{color:type.color}]}>{profit}%</Text>
           </View>
         </View>
       </View>
@@ -218,7 +218,6 @@ const styles = StyleSheet.create({
   textPercentage: {
     fontFamily: "Mulish_700Bold",
     fontSize: 16,
-    color: "#5EDE99",
     marginBottom: 2,
     zIndex: 1,
   },

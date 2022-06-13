@@ -7,6 +7,7 @@ const Input = ({
   iconName,
   error,
   password,
+  pwd,
   onFocus = () => {},
   ...props
 }) => {
@@ -44,7 +45,7 @@ const Input = ({
           {...props}
           value={props.value}
         />
-        {password && (
+        {password&&!pwd && (
           <Icon
             onPress={() => setHidePassword(!hidePassword)}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}

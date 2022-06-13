@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import MarketCoin from "../screens/MarketCoin";
-import Profile from "../screens/Profile";
 const Stack = createNativeStackNavigator();
 export default function () {
   return (
@@ -12,16 +11,11 @@ export default function () {
         <Stack.Screen
           name="MarketCoin"
           component={MarketCoin}
-          options={{ headerShown: false ,tabBarStyle: { display: "none" }}}
+          options={{ headerShown: false, tabBarStyle: { display: "none" } }}
         />
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

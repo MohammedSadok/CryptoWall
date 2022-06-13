@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -23,6 +23,7 @@ const RegistrationScreen = ({ navigation }) => {
     lastName: "",
     phone: "",
     password: "",
+    confirmation: "",
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
@@ -58,6 +59,13 @@ const RegistrationScreen = ({ navigation }) => {
       isValid = false;
     } else if (inputs.password.length < 5) {
       handleError("Min password length of 5", "password");
+      isValid = false;
+    }
+    if (!inputs.confirmation) {
+      handleError("Please confirm your password", "confirmation");
+      isValid = false;
+    } else if (inputs.password != inputs.confirmation) {
+      handleError("password and confirm password do not match", "confirmation");
       isValid = false;
     }
 
@@ -150,6 +158,17 @@ const RegistrationScreen = ({ navigation }) => {
             placeholder="Enter your password"
             error={errors.password}
             password
+            pwd
+          />
+          <Input
+            onChangeText={(text) => handleOnchange(text, "confirmation")}
+            onFocus={() => handleError(null, "confirmation")}
+            iconName="lock-outline"
+            label="Password Confirmation"
+            placeholder="Confirm your password"
+            error={errors.confirmation}
+            password
+            pwd
           />
           <Button
             title="Register"

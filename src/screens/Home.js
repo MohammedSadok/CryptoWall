@@ -26,9 +26,7 @@ export default function Home({ navigation }) {
   const [data, setData] = useState([]);
   const [assets, setAssets] = useState([]);
   const { portfolio, setPortfolio } = useContext(PortfolioContext);
-  const [loading, setLoading] = useState(false);
   async function fetchData() {
-    // setLoading(true);
     let user = await AsyncStorage.getItem("userData");
     let res = await getPortfolio(JSON.parse(user).portfolio);
     setPortfolio(res);
@@ -36,7 +34,6 @@ export default function Home({ navigation }) {
     let Top = await getTopCoins();
     setAssets(Top);
     setData(response);
-    // setLoading(false);
   }
   async function fetchDataAssets() {
     let response = await getAssets(portfolio.id);
@@ -48,10 +45,6 @@ export default function Home({ navigation }) {
   useEffect(() => {
     if (portfolio != undefined) fetchDataAssets();
   }, [portfolio]);
-
-  function handleClick(id) {
-    setSearch(id);
-  }
   const renderItem = ({ item }) => {
     return (
       <TrendCoin
@@ -59,6 +52,13 @@ export default function Home({ navigation }) {
         symbol={item.coin.symbol.slice(0, -4)}
         value={item.coin.price}
         image={item.coin.icon}
+        handleClick={() => {
+          navigation.navigate("MarketCoin", {
+            id: item.coin.symbol,
+            price: item.coin.price,
+            nav: "Home",
+          });
+        }}
       />
     );
   };
@@ -74,7 +74,11 @@ export default function Home({ navigation }) {
         profit={item.profit}
         percentage={item.price_change_percentage_24h}
         handleClick={() => {
-          navigation.navigate("MarketCoin", { id: item.id, nav: "Home" });
+          navigation.navigate("MarketCoin", {
+            id: item.coin.symbol,
+            price: item.coin.price,
+            nav: "Home",
+          });
         }}
       />
     );
@@ -87,8 +91,6 @@ export default function Home({ navigation }) {
 
   if (!fontsLoaded) {
     return null;
-  } else if (loading) {
-    return <ActivityIndicator color={"#000"} size={30}></ActivityIndicator>;
   }
   return (
     <View style={styles.container}>
@@ -110,11 +112,14 @@ export default function Home({ navigation }) {
         />
       </View>
       <Text style={styles.textWatchList}>Your Assets</Text>
-      <FlatList
-        style={styles.watchList}
-        data={data}
-        renderItem={renderAsset}
-      />
+      <FlatList style={styles.watchList} data={data} renderItem={renderAsset} />
+      {!data.length && (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>
+              You do not have any Asset !
+            </Text>
+          </View>
+        )}
     </View>
   );
 }
@@ -153,7 +158,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginVertical: 5,
   },
-  watchList: {
-    // backgroundColor: "red",
+  emptyContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "50%",
+  },
+  emptyText: {
+    fontFamily: "Mulish_700Bold",
+    fontSize: 20,
   },
 });

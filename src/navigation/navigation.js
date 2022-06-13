@@ -16,7 +16,6 @@ export default function () {
         />
         <Stack.Screen
           name="MarketCoin"
-          
           component={MarketCoin}
           options={{ headerShown: false }}
         />

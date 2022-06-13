@@ -47,7 +47,6 @@ export default function HomeHeader(props) {
             </View>
             <TouchableOpacity
               style={{ marginTop: vh * 0.005 }}
-              onPress={() => props.navigation.navigate("Profile")}
             >
               <AntDesign name="setting" size={vw * 0.11} color="black" />
             </TouchableOpacity>

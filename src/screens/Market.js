@@ -81,7 +81,7 @@ export default function Market({ navigation }) {
               navigation.navigate("MarketCoin", {
                 id: data.coin.symbol,
                 price:data.coin.price,
-                nav: "Home",
+                nav: "Market",
               });
             }}
           />

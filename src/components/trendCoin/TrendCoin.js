@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image} from "react-native";
+import { View, Text, TouchableOpacity, Image} from "react-native";
 import {
   useFonts,
   Mulish_400Regular,
@@ -16,7 +16,7 @@ export default function TrendCoin(props) {
     return null;
   }
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={props.handleClick}>
       <Image
         style={styles.img}
         source={{
@@ -25,7 +25,7 @@ export default function TrendCoin(props) {
       />
       <Text style={styles.name}>{props.symbol}</Text>
       <Text style={styles.price}>${props.value}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

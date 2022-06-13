@@ -57,6 +57,7 @@ const LoginScreen = ({ navigation }) => {
       setLogin(true);
     } else {
       Alert.alert("Error", "Username or password is incorrect!");
+      setLoading(false);
     }
   };
 

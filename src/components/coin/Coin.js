@@ -38,8 +38,7 @@ export default function Coin(props) {
         <Text style={styles.price}>$ {props.price}</Text>
         <View style={stylePercentage}>
           <Feather name={name} size={24} color="white" />
-          <Text style={styles.txtper}>{props.percentage} %</Text>
-          {/* <Text style={styles.txtper}>{props.percentage.toFixed(2)} %</Text> */}
+          <Text style={styles.txtper}>{props.percentage.toFixed(3)} %</Text>
         </View>
       </View>
     </TouchableOpacity>

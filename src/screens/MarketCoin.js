@@ -154,7 +154,7 @@ export default function MarketCoin({ navigation, route }) {
           {coin != undefined && (
             <View style={styles.header}>
               <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity onPress={() => navigation.navigate("Market")}>
+                <TouchableOpacity onPress={() => navigation.navigate(nav)}>
                   <AntDesign name="arrowleft" size={32} color="black" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Statistic</Text>
