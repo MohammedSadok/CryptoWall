@@ -30,7 +30,7 @@ export default function App() {
     <AuthContext.Provider value={{ login, setLogin }}>
       <PortfolioContext.Provider value={{ portfolio, setPortfolio }}>
         <View style={styles.container}>
-          {login ? <MainNavigation /> : <AuthNavigator />}
+          {login==1 ? <MainNavigation /> : <AuthNavigator />}
         </View>
       </PortfolioContext.Provider>
     </AuthContext.Provider>
