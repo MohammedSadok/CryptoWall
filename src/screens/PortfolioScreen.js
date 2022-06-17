@@ -70,11 +70,6 @@ export default function PortfolioScreen({ navigation }) {
           balance: 0,
         },
       ]);
-      let t = 0;
-      res.forEach((item) => {
-        t += item.balance;
-      });
-      setTotal(t);
     }
     toggleModal();
   };
@@ -172,7 +167,7 @@ export default function PortfolioScreen({ navigation }) {
         </View>
         <View style={styles.body}>
           <Text style={styles.textTotal}>Total balance</Text>
-          <Text style={styles.valueTotal}>{total ? total : 0}</Text>
+          <Text style={styles.valueTotal}>{total ? total.toFixed(3) : 0}</Text>
           <TouchableOpacity
             style={styles.addContainer}
             onPress={() => toggleModal()}
